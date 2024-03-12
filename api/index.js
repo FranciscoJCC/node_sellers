@@ -1,5 +1,7 @@
 const express = require('express');
 
+const port = process.env.PORT || 3000;
+
 const app = express();
 
 app.use(express.json());
@@ -10,7 +12,7 @@ app.get('/api/', (req, res) => {
 });
 
 //levantamos el servidor
-app.listen(3000, () => {
-    console.log('Listening at: http://localhost:' + 3000 + '/api');
+app.listen(port, () => {
+    console.log('Listening at: http://localhost:' + port + '/api');
 });
 
