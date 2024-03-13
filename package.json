@@ -4,15 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon api/index.js"
+    "dev": "nodemon api/index.js",
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert" : "sequelize-cli db:migrate:undo",
+    "migrations:delete": "sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.18.3"
+    "express": "^4.18.3",
+    "mysql2": "^3.9.2",
+    "sequelize": "^6.37.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "sequelize-cli": "^6.6.2"
   }
 }
