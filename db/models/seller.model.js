@@ -51,7 +51,12 @@ class Seller extends Model {
         return {
             sequelize,
             tableName: SELLER_TABLE,
-            timestamps: false
+            timestamps: false,
+            defaultScope: {
+                attributes: {
+                    exclude: ['password']
+                }
+            }
         }
     }
 }

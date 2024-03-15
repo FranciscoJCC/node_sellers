@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const bcrypt = require('bcrypt');
 
 const { models }  = require('./../libs/sequelize');
 
@@ -20,7 +21,17 @@ class SellerService {
     }
 
     async create(data){
-        const newSeller = await models.Seller.create(data);
+        //Hash al password
+        const hash = await bcrypt.hash(data.password, 10);
+        
+        //Add hash password to data
+        const newData = {
+            ...data,
+            password: hash
+        };
+        
+        //Create seller
+        const newSeller = await models.Seller.create(newData);
 
         return newSeller;
     }
