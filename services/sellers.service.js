@@ -18,6 +18,12 @@ class SellerService {
 
         return response;
     }
+
+    async create(data){
+        const newSeller = await models.Seller.create(data);
+
+        return newSeller;
+    }
 }
 
 module.exports = SellerService;
