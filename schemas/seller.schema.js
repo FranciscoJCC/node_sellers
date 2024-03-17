@@ -20,4 +20,12 @@ const createSellerSchema = Joi.object({
     password: password.required()
 });
 
-module.exports = { getSellerSchema, createSellerSchema };
+const updateSellerSchema = Joi.object({
+    name: name,
+    phone: phone,
+    email: email,
+    password: password,
+    active: active
+})
+
+module.exports = { getSellerSchema, createSellerSchema, updateSellerSchema };

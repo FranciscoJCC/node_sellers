@@ -20,6 +20,15 @@ class SellerService {
         return response;
     }
 
+    async findOne(id){
+        const seller = await models.Seller.findByPk(id);
+
+        if(!seller)
+            throw boom.notFound('user not found');
+
+        return seller;
+    }
+
     async create(data){
         //Hash al password
         const hash = await bcrypt.hash(data.password, 10);
@@ -29,11 +38,19 @@ class SellerService {
             ...data,
             password: hash
         };
-        
+
         //Create seller
         const newSeller = await models.Seller.create(newData);
 
         return newSeller;
+    }
+
+    async update(id, changes){
+        const seller = await this.findOne(id);
+
+        const response = await seller.update(changes);
+
+        return response;
     }
 }
 

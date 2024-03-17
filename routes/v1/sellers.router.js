@@ -2,7 +2,7 @@ const express = require('express');
 const SellerService = require('./../../services/sellers.service');
 //validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { getSellerSchema, createSellerSchema } = require('./../../schemas/seller.schema');
+const { getSellerSchema, createSellerSchema, updateSellerSchema } = require('./../../schemas/seller.schema');
 
 const router = express.Router();
 const service = new SellerService();
@@ -44,6 +44,25 @@ router.post('/',
             next(error);
         }
     }
-)
+);
+
+router.patch('/:id', 
+    validatorHandler(getSellerSchema, 'params'),    
+    validatorHandler(updateSellerSchema, 'body'),
+    async (req, res, next ) => {
+        try {
+            console.log('reg', req.params);
+            
+            const { id } = req.params;
+            const body = req.body;
+
+            const seller = await service.update(id, body);
+
+            res.status(200).json(seller);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 module.exports = router;
