@@ -52,6 +52,17 @@ class SellerService {
 
         return response;
     }
+
+    async delete(id){
+
+        //Validamos si existe el usuario
+        const seller = await this.findOne(id);
+
+        //Eliminamos el vendedor
+        await seller.destroy();
+
+        return { id };
+    }
 }
 
 module.exports = SellerService;
