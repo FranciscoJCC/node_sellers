@@ -51,8 +51,6 @@ router.patch('/:id',
     validatorHandler(updateSellerSchema, 'body'),
     async (req, res, next ) => {
         try {
-            console.log('reg', req.params);
-            
             const { id } = req.params;
             const body = req.body;
 
