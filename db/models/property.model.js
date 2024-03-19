@@ -81,12 +81,19 @@ class Property extends Model {
         this.belongsTo(models.Seller, {
             as: 'seller'
         });
+
+        //Una propiedad tiene muchas fotos
+        this.hasMany(models.Photo, {
+            as: 'photos',
+            foreignKey: 'propertyId'
+        });
     }
 
     static config(sequelize){
         return {
             sequelize,
             tableName: PROPERTY_TABLE,
+            modelName: 'Property',
             timestamps: false
         }
     }

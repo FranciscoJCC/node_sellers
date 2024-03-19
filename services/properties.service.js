@@ -9,7 +9,7 @@ class PropertyService {
 
     async list(){
         const response = await models.Property.findAll({
-            include: ['seller'],
+            include: ['seller', 'photos'],
         });
 
         return response;
@@ -17,7 +17,7 @@ class PropertyService {
 
     async findOne(id){
         const property = await models.Property.findByPk(id, {
-            include: ['seller'],
+            include: ['seller', 'photos']
         });
 
         if(!property)

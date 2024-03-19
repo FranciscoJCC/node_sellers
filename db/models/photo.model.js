@@ -46,7 +46,7 @@ const PhotosSchema = {
 class Photo extends Model {
     static associate(models){
         //Una photo pertene a una propiedad
-        this.hasOne(models.Property, {
+        this.belongsTo(models.Property, {
             as: 'property'
         });
     }
@@ -55,6 +55,7 @@ class Photo extends Model {
         return {
             sequelize, 
             tableName: PHOTOS_TABLE,
+            modelName: 'Photo',
             timestamps: false
         }
     }
