@@ -2,7 +2,7 @@
 
 const { SELLER_TABLE }  = require('./../models/seller.model');
 const { PROPERTY_TABLE } = require('./../models/property.model');
-const { PHOTOS_TABLE } = require('./../models/photos.model');
+const { PHOTOS_TABLE } = require('./../models/photo.model');
 const { DATES_TABLE } = require('./../models/dates.model');
 const { NOTES_TABLE } = require('./../models/notes.model');
 
