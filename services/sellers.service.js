@@ -9,7 +9,9 @@ class SellerService {
     }
 
     async list(){
-        const response = await models.Seller.findAll();
+        const response = await models.Seller.findAll(/* {
+            include: ['properties'],
+        } */);
 
         return response;
     }

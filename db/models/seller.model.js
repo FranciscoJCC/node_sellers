@@ -43,8 +43,13 @@ const SellerSchema = {
 
 //Class
 class Seller extends Model {
-    static associate(){
+    static associate(models){
         //relations
+        //Un vendedor tiene muchas propiedades
+        this.hasMany(models.Property, {
+            as: 'properties',
+            foreignKey: 'sellerId'
+        });
     }
 
     static config(sequelize){

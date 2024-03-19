@@ -8,13 +8,17 @@ class PropertyService {
     }
 
     async list(){
-        const response = await models.Property.findAll();
+        const response = await models.Property.findAll({
+            include: ['seller'],
+        });
 
         return response;
     }
 
     async findOne(id){
-        const property = await models.Property.findByPk(id);
+        const property = await models.Property.findByPk(id, {
+            include: ['seller'],
+        });
 
         if(!property)
             throw boom.notFound('property not found');

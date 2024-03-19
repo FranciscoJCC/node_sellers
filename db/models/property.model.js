@@ -76,8 +76,11 @@ const PropertySchema = {
 }
 
 class Property extends Model {
-    static associate(){
-
+    static associate(models){
+        //Una propiedad tiene un vendedor
+        this.belongsTo(models.Seller, {
+            as: 'seller'
+        });
     }
 
     static config(sequelize){
