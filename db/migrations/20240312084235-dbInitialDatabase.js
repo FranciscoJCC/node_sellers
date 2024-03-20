@@ -3,8 +3,8 @@
 const { SELLER_TABLE }  = require('./../models/seller.model');
 const { PROPERTY_TABLE } = require('./../models/property.model');
 const { PHOTOS_TABLE } = require('./../models/photo.model');
-const { DATES_TABLE } = require('./../models/dates.model');
-const { NOTES_TABLE } = require('./../models/notes.model');
+const { DATES_TABLE } = require('./../models/date.model');
+const { NOTES_TABLE } = require('../models/note.model');
 
 
 /** @type {import('sequelize-cli').Migration} */
