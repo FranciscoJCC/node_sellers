@@ -13,6 +13,7 @@ function setupModels(sequelize){
     Seller.associate(sequelize.models);
     Property.associate(sequelize.models);
     Photo.associate(sequelize.models);
+    Date.associate(sequelize.models);
 }
 
 module.exports = setupModels;

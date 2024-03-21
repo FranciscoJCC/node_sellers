@@ -61,7 +61,16 @@ const DateSchema = {
 }
 
 class Date extends Model {
-    static associate(){
+    static associate(models){
+        //Una cita tiene una propiedad
+        this.belongsTo(models.Property, {
+            as: 'property',
+        });
+
+        //Una cita tiene un vendedor
+        this.belongsTo(models.Seller, {
+            as: 'seller'
+        });
 
     }
 

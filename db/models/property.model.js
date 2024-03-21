@@ -87,6 +87,12 @@ class Property extends Model {
             as: 'photos',
             foreignKey: 'propertyId'
         });
+
+        // Una propiedad tiene muchas citas 
+        this.hasMany(models.Date, {
+            as: 'dates',
+            foreignKey: 'propertyId',
+        });
     }
 
     static config(sequelize){

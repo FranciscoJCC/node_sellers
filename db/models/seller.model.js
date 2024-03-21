@@ -50,6 +50,12 @@ class Seller extends Model {
             as: 'properties',
             foreignKey: 'sellerId'
         });
+
+        //Un vendedor tiene muchas citas
+        this.hasMany(models.Date, {
+            as: 'dates',
+            foreignKey: 'sellerId'
+        });
     }
 
     static config(sequelize){

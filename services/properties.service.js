@@ -17,7 +17,7 @@ class PropertyService {
 
     async findOne(id){
         const property = await models.Property.findByPk(id, {
-            include: ['seller', 'photos']
+            include: ['seller', 'photos', 'dates']
         });
 
         if(!property)

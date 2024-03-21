@@ -8,7 +8,9 @@ class DateService {
     }
 
     async list(){
-        const response = await models.Date.findAll();
+        const response = await models.Date.findAll({
+            include: ['property','seller']
+        });
 
         return response;
     }
