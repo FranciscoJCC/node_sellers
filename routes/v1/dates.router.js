@@ -47,6 +47,8 @@ router.post('/',
 );
 
 router.patch('/:id',
+    validatorHandler(getDateSchema, 'params'),
+    validatorHandler(updateDateSchema, 'body'),
     async (req, res, next) => {
         try {
             const { id } = req.params;
@@ -73,6 +75,6 @@ router.delete('/:id',
             next(error);
         }
     }
-)
+);
 
 module.exports = router;
