@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const routerApi = require('./routes/v1/index');
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middelwares/error.handler');
 
@@ -12,6 +13,20 @@ app.use(express.json());
 app.get('/api/', (req, res) => {
     res.send('Express, mi servidor');
 });
+
+//Cors
+const whiteList = ['http://localhost:8080'];
+const options = {
+    origin: (origin, callback) => {
+        if(whiteList.includes(origin) || !origin){
+            callback(null, true);
+        }else{
+            callback(new Error('Permission Denied'));
+        }
+    }
+}
+
+app.use(cors(options));
 
 //Router api
 routerApi(app);
