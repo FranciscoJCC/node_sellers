@@ -40,7 +40,10 @@ const NoteSchema = {
 
 class Note extends Model {
     static associate(models){
-
+        //Una nota pertenece a una cita 
+        this.belongsTo(models.Date, {
+            as: 'date',
+        });
     }
 
     static config(sequelize){

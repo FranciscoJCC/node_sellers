@@ -72,6 +72,12 @@ class Date extends Model {
             as: 'seller'
         });
 
+        //Una cita tiene notas
+        this.hasMany(models.Note, {
+            as: 'notes',
+            foreignKey: 'dateId'
+        });
+
     }
 
     static config(sequelize){

@@ -8,7 +8,9 @@ class NoteService {
     }
 
     async list() {
-        const response = await models.Note.findAll();
+        const response = await models.Note.findAll({
+            include: ['date']
+        });
 
         return response;
     }

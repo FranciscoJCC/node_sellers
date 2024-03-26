@@ -9,7 +9,7 @@ class DateService {
 
     async list(){
         const response = await models.Date.findAll({
-            include: ['property','seller']
+            include: ['property','seller', 'notes']
         });
 
         return response;
