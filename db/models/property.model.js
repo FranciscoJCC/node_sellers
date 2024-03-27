@@ -32,7 +32,11 @@ const PropertySchema = {
     },
     price: {
         allowNull: false,
-        type: DataTypes.FLOAT(10,2)
+        type: DataTypes.FLOAT(10,2),
+        get() {
+            const rawValue = this.getDataValue('price');
+            return `$${rawValue.toFixed(2)}`;
+        }
     },
     location: {
         allowNull: false, 
@@ -76,7 +80,11 @@ const PropertySchema = {
         field: 'created_at',
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
+        get(){
+            const rawValue = this.getDataValue('created_at');
+            return rawValue.toLocaleDateString('es-MX');
+        }
     },
 }
 
