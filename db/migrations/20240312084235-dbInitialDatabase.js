@@ -91,6 +91,11 @@ module.exports = {
         allowNull: false, 
         type: Sequelize.DataTypes.INTEGER
       },
+      numberBedrooms: {
+        field: 'number_bedrooms',
+        allowNull: false, 
+        type: Sequelize.DataTypes.INTEGER
+      },
       numberBathrooms: {
         field: 'number_bathrooms',
         allowNull: false, 

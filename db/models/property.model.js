@@ -49,6 +49,11 @@ const PropertySchema = {
         allowNull: false,
         type: DataTypes.INTEGER
     },
+    numberBedrooms: {
+        field: 'number_bedrooms',
+        allowNull: false,
+        type: DataTypes.INTEGER
+    },
     numberBathrooms: {
         field: 'number_bathrooms',
         allowNull: false,

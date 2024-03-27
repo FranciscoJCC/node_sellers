@@ -9,6 +9,7 @@ const price = Joi.number();
 const location = Joi.string().max(255);
 const typeHouse = Joi.string().max(50);
 const numberFloors = Joi.number();
+const numberBedrooms = Joi.number();
 const numberBathrooms = Joi.number();
 const width = Joi.number();
 const heigth = Joi.number();
@@ -26,6 +27,7 @@ const createPropertySchema = Joi.object({
     location: location.required(),
     typeHouse: typeHouse.required(),
     numberFloors: numberFloors.required(),
+    numberBedrooms: numberBedrooms.required(),
     numberBathrooms: numberBathrooms.required(),
     width: width.required(),
     heigth: heigth.required()
@@ -39,9 +41,11 @@ const updatePropertySchema = Joi.object({
     location: location,
     typeHouse: typeHouse,
     numberFloors: numberFloors,
+    numberBedrooms: numberBedrooms,
     numberBathrooms: numberBathrooms,
     width: width,
-    heigth: heigth
+    heigth: heigth,
+    active: active
 });
 
 module.exports = { getPropertySchema, createPropertySchema, updatePropertySchema };

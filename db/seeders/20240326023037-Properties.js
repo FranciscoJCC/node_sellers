@@ -18,6 +18,7 @@ module.exports = {
           location: faker.location.ordinalDirection(),
           type_house: 'house',
           number_floors: faker.number.int({min: 1, max: 2}),
+          number_bedrooms: faker.number.int({min: 1, max: 2}),
           number_bathRooms: faker.number.int({min: 1, max: 3}),
           width: faker.number.int({min: 5, max: 15}),
           heigth: faker.number.int({min: 15, max: 30})
