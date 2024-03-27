@@ -251,9 +251,9 @@ module.exports = {
       return Promise.all([
         queryInterface.dropTable(NOTES_TABLE), { transaction: t },
         queryInterface.dropTable(DATES_TABLE), { transaction: t },
-        queryInterface.dropTable(PROPERTY_TABLE), { transaction: t },
         queryInterface.dropTable(PHOTOS_TABLE), { transaction: t },
-        queryInterface.dropTable(SELLER_TABLE), { transaction: t }
+        queryInterface.dropTable(PROPERTY_TABLE), { transaction: t },
+        queryInterface.dropTable(SELLER_TABLE), { transaction: t },
       ]);
     });
   }
