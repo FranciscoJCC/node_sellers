@@ -21,7 +21,8 @@ module.exports = {
           number_bedrooms: faker.number.int({min: 1, max: 2}),
           number_bathRooms: faker.number.int({min: 1, max: 3}),
           width: faker.number.int({min: 5, max: 15}),
-          heigth: faker.number.int({min: 15, max: 30})
+          heigth: faker.number.int({min: 15, max: 30}),
+          created_at: faker.date.recent()
         }
       );
     }

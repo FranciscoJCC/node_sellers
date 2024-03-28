@@ -82,8 +82,8 @@ const PropertySchema = {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
         get(){
-            const rawValue = this.getDataValue('created_at');
-            return `$${rawValue.toFixed(2)}`;
+            const rawValue = this.getDataValue('createdAt');
+            return rawValue.toLocaleString('es-MX', { timeZone: 'America/Mexico_City'});
         }
     },
 }
