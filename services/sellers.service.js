@@ -33,16 +33,16 @@ class SellerService {
 
     async create(data){
         //Hash al password
-        const hash = await bcrypt.hash(data.password, 10);
+        /* const hash = await bcrypt.hash(data.password, 10); */
         
         //Add hash password to data
-        const newData = {
+        /* const newData = {
             ...data,
             password: hash
-        };
+        }; */
 
         //Create seller
-        const newSeller = await models.Seller.create(newData);
+        const newSeller = await models.Seller.create(data);
 
         return newSeller;
     }

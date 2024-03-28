@@ -1,4 +1,5 @@
 const { Sequelize, Model, DataTypes } = require("sequelize");
+const bcrypt = require('bcrypt');
 
 //Nombre de la tabla 
 const SELLER_TABLE = 'sellers';
@@ -37,7 +38,11 @@ const SellerSchema = {
         field: 'created_at',
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
+        get(){
+            const rawValue = this.getDataValue('createdAt');
+            return rawValue.toLocaleString('es-MX', { timeZone: 'America/Mexico_City'});
+        }
     },
 }
 
@@ -68,6 +73,19 @@ class Seller extends Model {
                 attributes: {
                     exclude: ['password']
                 }
+            },
+            hooks: {
+                beforeCreate: async (user, options)=> {
+                    const password = await bcrypt.hash(user.password, 10);
+
+                    user.password = password;
+                }
+            },
+            defaultScope: {
+                attributes: { exclude: ['password']}
+            },
+            scopes: {
+                widhPassword: { attributes: {}},
             }
         }
     }
