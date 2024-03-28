@@ -39,7 +39,11 @@ const PhotosSchema = {
         field: 'created_at',
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
+        get(){
+            const rawValue = this.getDataValue('createdAt');
+            return rawValue.toLocaleString('es-MX', { timeZone: 'America/Mexico_City'});
+        }
     },
 }
 
