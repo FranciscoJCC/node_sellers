@@ -10,6 +10,9 @@ const email = Joi.string().max(150);
 const date = Joi.date();
 const active = Joi.boolean();
 
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 
 const getDateSchema = Joi.object({
     id: id.required()
@@ -34,4 +37,9 @@ const updateDateSchema = Joi.object({
     active: active
 });
 
-module.exports = { getDateSchema, updateDateSchema, createDateSchema };
+const queryDateSchema = Joi.object({
+    limit,
+    offset
+});
+
+module.exports = { getDateSchema, updateDateSchema, createDateSchema, queryDateSchema };

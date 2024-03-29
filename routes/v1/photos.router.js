@@ -2,20 +2,23 @@ const express = require('express');
 const PhotoService = require('./../../services/photos.service');
 //Validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { getPhotoSchema, createPhotoSchema, updatePhotoSchema } = require('./../../schemas/photo.schema');
+const { getPhotoSchema, createPhotoSchema, updatePhotoSchema, queryPhotoSchema } = require('./../../schemas/photo.schema');
 
 const router = express.Router();
 const service = new PhotoService();
 
-router.get('/', async (req, res, next) => {
-    try {
-        const photos = await service.list();
+router.get('/', 
+    validatorHandler(queryPhotoSchema, 'query'),
+    async (req, res, next) => {
+        try {
+            const photos = await service.list(req.query);
 
-        res.status(200).json(photos);
-    } catch (error) {
-        next(error);
+            res.status(200).json(photos);
+        } catch (error) {
+            next(error);
+        }
     }
-});
+);
 
 router.get('/:id', 
     validatorHandler(getPhotoSchema, 'params'),

@@ -7,8 +7,17 @@ class PhotoService {
 
     }
 
-    async list() {
-        const response = await models.Photo.findAll();
+    async list(query) {
+
+        const options = {
+            where: {
+                active: true
+            },
+            limit: (query.limit) ? parseInt(query?.limit) : 10,
+            offset: (query.offset) ? parseInt(query?.offset) : 0
+        };
+
+        const response = await models.Photo.findAll(options);
 
         return response;
     }

@@ -6,6 +6,9 @@ const dateId = Joi.number().integer();
 const note = Joi.string().max(255);
 const active = Joi.boolean();
 
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 const getNoteSchema = Joi.object({
     id: id.required()
 });
@@ -22,4 +25,9 @@ const updateNoteSchema = Joi.object({
     active: active
 });
 
-module.exports = { getNoteSchema, createNoteSchema, updateNoteSchema };
+const queryNoteSchema = Joi.object({
+    limit,
+    offset
+});
+
+module.exports = { getNoteSchema, createNoteSchema, updateNoteSchema, queryNoteSchema };

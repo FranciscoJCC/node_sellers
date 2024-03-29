@@ -7,10 +7,18 @@ class PropertyService {
 
     }
 
-    async list(){
-        const response = await models.Property.findAll({
+    async list(query){
+
+        const options = {
             include: ['seller', 'photos'],
-        });
+            where: {
+                active: true
+            },
+            limit: (query.limit) ? parseInt(query?.limit) : 10,
+            offset: (query.offset) ? parseInt(query?.offset) : 0
+        }
+
+        const response = await models.Property.findAll(options);
 
         return response;
     }

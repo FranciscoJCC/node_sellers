@@ -7,10 +7,17 @@ class NoteService {
 
     }
 
-    async list() {
-        const response = await models.Note.findAll({
-            include: ['date']
-        });
+    async list(query) {
+        const options = {
+            include: ['date'],
+            where: {
+                active: true
+            },
+            limit: (query.limit) ? parseInt(query?.limit) : 10,
+            offset: (query.offset) ? parseInt(query?.offset) : 0
+        }
+
+        const response = await models.Note.findAll(options);
 
         return response;
     }

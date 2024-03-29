@@ -15,6 +15,10 @@ const width = Joi.number();
 const heigth = Joi.number();
 const active = Joi.boolean();
 
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
+
 const getPropertySchema = Joi.object({
     id: id.required()
 });
@@ -48,4 +52,9 @@ const updatePropertySchema = Joi.object({
     active: active
 });
 
-module.exports = { getPropertySchema, createPropertySchema, updatePropertySchema };
+const queryPropertySchema = Joi.object({
+    limit,
+    offset
+});
+
+module.exports = { getPropertySchema, createPropertySchema, updatePropertySchema, queryPropertySchema };

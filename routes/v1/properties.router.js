@@ -2,20 +2,23 @@ const express = require('express');
 const PropertyService = require('./../../services/properties.service');
 //Validtor
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { getPropertySchema, updatePropertySchema, createPropertySchema } = require('./../../schemas/property.schema');
+const { getPropertySchema, updatePropertySchema, createPropertySchema, queryPropertySchema } = require('./../../schemas/property.schema');
 
 const router = express.Router();
 const service = new PropertyService();
 
-router.get('/', async (req, res, next) => {
-    try {
-        const properties = await service.list();
+router.get('/', 
+    validatorHandler(queryPropertySchema, 'query'),
+    async (req, res, next) => {
+        try {
+            const properties = await service.list(req.query);
 
-        res.status(200).json(properties)
-    } catch (error) {
-        next(error);
+            res.status(200).json(properties);
+        } catch (error) {
+            next(error);
+        }
     }
-});
+);
 
 router.get('/:id', 
     validatorHandler(getPropertySchema, 'params'),

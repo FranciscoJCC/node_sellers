@@ -2,20 +2,23 @@ const express = require('express');
 const DateService = require('./../../services/dates.service');
 //Validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { getDateSchema, createDateSchema, updateDateSchema } = require('./../../schemas/date.schema');
+const { getDateSchema, createDateSchema, updateDateSchema, queryDateSchema } = require('./../../schemas/date.schema');
 
 const router = express.Router();
 const service = new DateService();
 
-router.get('/', async (req, res, next) => {
-    try {
-        const dates = await service.list();
+router.get('/', 
+    validatorHandler(queryDateSchema, 'query'),
+    async (req, res, next) => {
+        try {
+            const dates = await service.list(req.query);
 
-        res.status(200).json(dates)
-    } catch (error) {
-        next(error);
+            res.status(200).json(dates)
+        } catch (error) {
+            next(error);
+        }
     }
-});
+);
 
 router.get('/:id', 
     validatorHandler(getDateSchema, 'params'),

@@ -7,10 +7,18 @@ class DateService {
          
     }
 
-    async list(){
-        const response = await models.Date.findAll({
-            include: ['property','seller', 'notes']
-        });
+    async list(query){
+
+        const options = {
+            include: ['property','seller', 'notes'],
+            where: {
+                active: true
+            },
+            limit: (query.limit) ? parseInt(query?.limit) : 10,
+            offset: (query.offset) ? parseInt(query?.offset) : 0
+        }
+
+        const response = await models.Date.findAll(options);
 
         return response;
     }

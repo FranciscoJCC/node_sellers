@@ -7,6 +7,9 @@ const url = Joi.string().max(255);
 const main = Joi.boolean();
 const active = Joi.boolean();
 
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 //Schemas
 const getPhotoSchema = Joi.object({
     id: id.required()
@@ -23,4 +26,9 @@ const updatePhotoSchema = Joi.object({
     active: active
 });
 
-module.exports = { getPhotoSchema, createPhotoSchema, updatePhotoSchema };
+const queryPhotoSchema = Joi.object({
+    limit,
+    offset
+});
+
+module.exports = { getPhotoSchema, createPhotoSchema, updatePhotoSchema, queryPhotoSchema };

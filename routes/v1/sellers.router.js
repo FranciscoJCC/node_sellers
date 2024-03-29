@@ -2,21 +2,24 @@ const express = require('express');
 const SellerService = require('./../../services/sellers.service');
 //validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { getSellerSchema, createSellerSchema, updateSellerSchema } = require('./../../schemas/seller.schema');
+const { getSellerSchema, createSellerSchema, updateSellerSchema,queryProductSchema } = require('./../../schemas/seller.schema');
 
 const router = express.Router();
 const service = new SellerService();
 
 
-router.get('/', async (req, res, next) => {
-    try {
-        const sellers = await service.list();
+router.get('/', 
+    validatorHandler(queryProductSchema, 'query'),    
+    async (req, res, next) => {
+        try {
+            const sellers = await service.list(req.query);
 
-        res.status(200).json(sellers);
-    } catch (error) {
-        next(error);
+            res.status(200).json(sellers);
+        } catch (error) {
+            next(error);
+        }
     }
-});
+);
 
 router.get('/:id', 
     validatorHandler(getSellerSchema, 'params'),

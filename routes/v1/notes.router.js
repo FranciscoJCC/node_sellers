@@ -2,15 +2,16 @@ const express = require('express');
 const NoteService = require('../../services/notes.service');
 //Validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { getNoteSchema, createNoteSchema, updateNoteSchema } = require('./../../schemas/note.schema');
+const { getNoteSchema, createNoteSchema, updateNoteSchema, queryNoteSchema } = require('./../../schemas/note.schema');
 
 const router = express.Router();
 const service = new NoteService();
 
 router.get('/', 
+    validatorHandler(queryNoteSchema, 'query'),
     async(req, res, next) => {
         try {
-            const notes = await service.list();
+            const notes = await service.list(req.query);
 
             res.status(200).json(notes);
         } catch (error) {
