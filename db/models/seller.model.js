@@ -85,7 +85,7 @@ class Seller extends Model {
                 attributes: { exclude: ['password']}
             },
             scopes: {
-                widhPassword: { attributes: {}},
+                allProperties: { attributes: {}},
             }
         }
     }

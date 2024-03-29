@@ -38,6 +38,14 @@ class SellerService {
         return seller;
     }
 
+    async findByEmail(email){
+        const response = await models.Seller.scope('allProperties').findOne({
+            where: { email }
+        });
+        
+        return response;
+    }
+
     async create(data){
         //Create seller
         const newSeller = await models.Seller.create(data);

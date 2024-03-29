@@ -24,7 +24,10 @@ const options = {
             callback(new Error('Permission Denied'));
         }
     }
-}
+};
+
+//Auth
+require('./utils/auth');
 
 app.use(cors(options));
 
