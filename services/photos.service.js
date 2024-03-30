@@ -22,6 +22,20 @@ class PhotoService {
         return response;
     }
 
+    async find(id){
+        const photo = await models.Photo.findOne({
+            where: {
+                active: true,
+                id: id
+            }
+        });
+
+        if(!photo)
+            throw boom.notFound('photo not found');
+
+        return photo;
+    }
+
     async findOne(id){
         const photo = await models.Photo.findByPk(id);
 
@@ -49,7 +63,7 @@ class PhotoService {
     async delete(id){
         const photo = await this.findOne(id);
 
-        await photo.destroy();
+        await photo.update({ active: false});
 
         return { id };
     }

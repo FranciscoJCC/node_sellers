@@ -1,7 +1,9 @@
 const express = require('express');
+const passport = require('passport');
 const NoteService = require('../../services/notes.service');
 //Validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
+const verifyToken = require('./../../middelwares/token.handler');
 const { getNoteSchema, createNoteSchema, updateNoteSchema, queryNoteSchema } = require('./../../schemas/note.schema');
 
 const router = express.Router();
@@ -25,7 +27,7 @@ router.get('/:id',
     async(req, res, next)=> {
         try {
             const { id } = req.params;
-            const note = await service.findOne(id);
+            const note = await service.find(id);
 
             res.status(200).json(note);
         } catch (error) {
@@ -36,6 +38,8 @@ router.get('/:id',
 
 router.post('/',
     validatorHandler(createNoteSchema, 'body'),
+    verifyToken,
+    passport.authenticate('jwt', { session: false}),
     async (req, res, next) => {
         try {
             const data = req.body;
@@ -52,6 +56,8 @@ router.post('/',
 router.patch('/:id',
     validatorHandler(getNoteSchema, 'params'),
     validatorHandler(updateNoteSchema, 'body'),
+    verifyToken, 
+    passport.authenticate('jwt', { session: false}),
     async(req, res, next) => {
         try {
             const { id } = req.params;
@@ -68,12 +74,14 @@ router.patch('/:id',
 
 router.delete('/:id', 
     validatorHandler(getNoteSchema, 'params'),
+    verifyToken,
+    passport.authenticate('jwt', {session: false}),
     async(req, res, next) => {
         try {
             const { id } = req.params;
             const note = await service.delete(id);
 
-            res.status(200).json(note);
+            res.status(200).json({...note, message: "the note was deleted"});
         } catch (error) {
             next(error);
         }

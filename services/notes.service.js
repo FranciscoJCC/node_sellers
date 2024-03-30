@@ -22,6 +22,20 @@ class NoteService {
         return response;
     }
 
+    async find(id) {
+        const note = await models.Note.findOne({
+            where: {
+                active: true,
+                id: id
+            }
+        });
+
+        if(!note)
+            throw boom.notFound('note not found');
+
+        return note;
+    }
+
     async findOne(id) {
         const note = await models.Note.findByPk(id);
 
@@ -46,9 +60,9 @@ class NoteService {
     }
 
     async delete(id){
-        const note = this.findOne(id);
+        const note = await this.findOne(id);
 
-        await note.destroy();
+        await note.update({active: false});
 
         return { id };
     }

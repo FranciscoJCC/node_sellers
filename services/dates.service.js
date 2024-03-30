@@ -23,6 +23,21 @@ class DateService {
         return response;
     }
 
+    async find(id){
+        const date = await models.Date.findOne({
+            include: ['property','seller', 'notes'],
+            where: {
+                active: true,
+                id: id
+            }
+        });
+
+        if(!date)
+            throw boom.notFound('date not found');
+
+        return date;
+    }
+
     async findOne(id){
         const date = await models.Date.findByPk(id);
 
@@ -49,7 +64,7 @@ class DateService {
     async delete(id){
         const date = await this.findOne(id);
 
-        await date.destroy();
+        await date.update({ active: false });
 
         return { id };
     }

@@ -1,7 +1,9 @@
 const express = require('express');
+const passport = require('passport');
 const PhotoService = require('./../../services/photos.service');
 //Validator
 const validatorHandler = require('./../../middelwares/validatorHandler');
+const verifyToken = require('./../../middelwares/token.handler');
 const { getPhotoSchema, createPhotoSchema, updatePhotoSchema, queryPhotoSchema } = require('./../../schemas/photo.schema');
 
 const router = express.Router();
@@ -26,7 +28,7 @@ router.get('/:id',
         try {
             const { id } = req.params;
 
-            const photo = await service.findOne(id);
+            const photo = await service.find(id);
 
             res.status(200).json(photo);
         } catch (error) {
@@ -37,6 +39,8 @@ router.get('/:id',
 
 router.post('/',
     validatorHandler(createPhotoSchema, 'body'),
+    verifyToken,
+    passport.authenticate('jwt', {session: false}),
     async (req, res, next) => {
         try {
             const data = req.body;
@@ -53,6 +57,8 @@ router.post('/',
 router.patch('/:id', 
     validatorHandler(getPhotoSchema, 'params'),
     validatorHandler(updatePhotoSchema, 'body'),
+    verifyToken,
+    passport.authenticate('jwt', {session: false}),
     async(req, res, next) => {
         try {
             const { id } = req.params;
@@ -68,12 +74,15 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+    validatorHandler(getPhotoSchema, 'params'),
+    verifyToken,
+    passport.authenticate('jwt', {session: false}),
     async (req, res, next) => {
         try {
             const { id } = req.params;
             const photo = await service.delete(id);
 
-            res.status(200).json(photo);
+            res.status(200).json({...photo, message: "the photo was deleted"});
         } catch (error) {
             next(error);
         }

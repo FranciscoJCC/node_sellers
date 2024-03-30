@@ -10,7 +10,7 @@ class PropertyService {
     async list(query){
 
         const options = {
-            include: ['seller', 'photos'],
+            include: ['seller', 'photos', 'dates'],
             where: {
                 active: true
             },
@@ -23,10 +23,23 @@ class PropertyService {
         return response;
     }
 
-    async findOne(id){
-        const property = await models.Property.findByPk(id, {
-            include: ['seller', 'photos', 'dates']
+    async find(id){
+        const response = await models.Property.findOne({
+            include: ['seller', 'photos', 'dates'],
+            where: {
+                active: true,
+                id: id
+            }
         });
+
+        if(!response)
+            throw boom.notFound('property not found');
+
+        return response;
+    }
+
+    async findOne(id){
+        const property = await models.Property.findByPk(id);
 
         if(!property)
             throw boom.notFound('property not found');
@@ -54,7 +67,7 @@ class PropertyService {
         //Validamos que exista 
         const property = await this.findOne(id);
 
-        await property.destroy();
+        await property.update({ active: false});
 
         return { id };
     }
