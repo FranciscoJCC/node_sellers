@@ -48,7 +48,10 @@ class PropertyService {
     }
 
     async create(data){
-        const property = await models.Property.create(data);
+
+        const property = await models.Property.create(data, {
+            include: ['photos']
+        });
 
         return property;
     }

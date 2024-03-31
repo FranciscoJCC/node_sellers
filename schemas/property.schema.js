@@ -14,6 +14,7 @@ const numberBathrooms = Joi.number();
 const width = Joi.number();
 const heigth = Joi.number();
 const active = Joi.boolean();
+const photos = Joi.array();
 
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
@@ -34,7 +35,8 @@ const createPropertySchema = Joi.object({
     numberBedrooms: numberBedrooms.required(),
     numberBathrooms: numberBathrooms.required(),
     width: width.required(),
-    heigth: heigth.required()
+    heigth: heigth.required(),
+    photos: photos.required(),
 });
 
 const updatePropertySchema = Joi.object({
