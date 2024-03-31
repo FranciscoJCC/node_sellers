@@ -15,7 +15,7 @@ const getPhotoSchema = Joi.object({
     id: id.required()
 });
 
-const createPhotoSchema = Joi.object({
+const createPhotoSchema = Joi.array().items({
     propertyId: propertyId.required(),
     url: url.required()
 });

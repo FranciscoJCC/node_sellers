@@ -44,7 +44,7 @@ router.post('/',
     async (req, res, next) => {
         try {
             const data = req.body;
-
+            
             const newPhoto = await service.create(data);
 
             res.status(201).json(newPhoto);

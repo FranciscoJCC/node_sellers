@@ -46,8 +46,7 @@ class PhotoService {
     }
 
     async create(data){
-
-        const newPhoto = await models.Photo.create(data);
+        const newPhoto = await models.Photo.bulkCreate(data);
 
         return newPhoto;
     }
