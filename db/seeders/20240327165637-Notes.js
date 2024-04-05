@@ -11,7 +11,7 @@ module.exports = {
       notes.push(
         {
           date_id: faker.number.int({min: 1, max: 50}),
-          note: faker.word.words({ count: { min: 10, max: 50}}),
+          note: faker.word.words({ count: { min: 10, max: 30}}),
         }
       );
     }

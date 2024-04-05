@@ -11,7 +11,7 @@ const { NOTES_TABLE } = require('../models/note.model');
 module.exports = {
   up : async (queryInterface, Sequelize) => {
     //CREATE TABLE SELLERS
-    queryInterface.createTable(SELLER_TABLE, {
+    await queryInterface.createTable(SELLER_TABLE, {
       id: {
         allowNull: false, 
         autoIncrement: true,
@@ -44,12 +44,12 @@ module.exports = {
         field: 'created_at',
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW
+        defaultValue: Sequelize.fn('now')
       },
     }),
 
     //CREATE TABLE PROPERTIES
-    queryInterface.createTable(PROPERTY_TABLE, {
+    await queryInterface.createTable(PROPERTY_TABLE, {
       id: {
         allowNull: false, 
         autoIncrement: true,
@@ -118,12 +118,12 @@ module.exports = {
         field: 'created_at',
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW
+        defaultValue: Sequelize.fn('now')
       }
     }),
 
     //CREATE TABLE PHOTOS
-    queryInterface.createTable(PHOTOS_TABLE, {
+    await queryInterface.createTable(PHOTOS_TABLE, {
       id: {
         allowNull: false, 
         autoIncrement: true,
@@ -157,12 +157,12 @@ module.exports = {
         field: 'created_at',
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW
+        defaultValue: Sequelize.fn('now')
       }
     }),
 
     //CREATE TABLE DATES
-    queryInterface.createTable(DATES_TABLE, {
+    await queryInterface.createTable(DATES_TABLE, {
       id: {
         allowNull: false, 
         autoIncrement: true,
@@ -212,12 +212,12 @@ module.exports = {
         field: 'created_at',
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW
+        defaultValue: Sequelize.fn('now')
       }
     }),  
 
     //CREATE TABLE NOTES
-    queryInterface.createTable(NOTES_TABLE, {
+    await queryInterface.createTable(NOTES_TABLE, {
       id: {
         allowNull: false, 
         autoIncrement: true,
@@ -246,7 +246,7 @@ module.exports = {
         field: 'created_at',
         allowNull: false,
         type: Sequelize.DataTypes.DATE,
-        defaultValue: Sequelize.DataTypes.NOW
+        defaultValue: Sequelize.fn('now')
       }
     })
   },

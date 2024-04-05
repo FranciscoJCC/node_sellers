@@ -13,7 +13,7 @@ module.exports = {
           seller_id: faker.number.int({min: 1, max: 10}),
           property_id: faker.number.int({min: 1, max: 10}),
           name: faker.person.fullName(),
-          phone: faker.phone.number(),
+          phone: '33-12-55-58',
           email: faker.internet.email(),
           date: faker.date.future()
         }
