@@ -1,8 +1,12 @@
 const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { CONFIG } = require('../config/config');
 const SellerService = require('./sellers.service');
+const MailService = require('./mail.service');
 
 const service = new SellerService();
+const mailService = new MailService();
 
 class AuthService {
     
@@ -24,6 +28,39 @@ class AuthService {
         delete user.dataValues.password;
 
         return user;
+    }
+
+    //Restablecimiento de contraseña 
+    async sendRecovery(email){
+        //Buscamos el usuario con el email
+        const seller = await service.findByEmail(email);
+
+        if(!seller){
+            throw boom.unauthorized('error, bad request');
+        }
+
+        //Generamos un token
+        const payload = { sub: seller.id };
+        const token = jwt.sign(
+            payload, CONFIG.jwtSecretRecPassword, 
+            { expiresIn: '15min'}
+        );
+        const link = `http://myfrondend.com/recovery?token=${token}`;
+
+        //Guardamos el token en la bdd
+        await service.update(seller.id, seller.id, { recoveryToken: token });
+
+        //Enviamos el email
+        const mail = {
+            from: '"Recuperación de cuenta " <no-reply@sellers.com>', //sender address
+            to: `${seller.email}`,
+            subject: "Recuperación de contraseña",
+            html: `<b>Ingresa a este link para recuperar tu contraseña: ${link}</b>`
+        }
+
+        const response = await mailService.sendEmail(mail);
+
+        return response;
     }
 }
 

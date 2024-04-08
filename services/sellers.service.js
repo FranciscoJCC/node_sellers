@@ -53,6 +53,8 @@ class SellerService {
         //Create seller
         const newSeller = await models.Seller.create(data);
 
+        //TO-DO: Validar que no retorne el password
+
         return newSeller;
     }
 

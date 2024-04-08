@@ -44,6 +44,11 @@ const SellerSchema = {
             return rawValue.toLocaleString('es-MX', { timeZone: 'America/Mexico_City'});
         }
     },
+    recoveryToken:{
+        field: 'recovery_token',
+        allowNull: true,
+        type: DataTypes.STRING,
+    },
 }
 
 //Class
@@ -69,11 +74,6 @@ class Seller extends Model {
             tableName: SELLER_TABLE,
             modelName: 'Seller',
             timestamps: false,
-            defaultScope: {
-                attributes: {
-                    exclude: ['password']
-                }
-            },
             hooks: {
                 beforeCreate: async (user, options)=> {
                     const password = await bcrypt.hash(user.password, 10);
@@ -82,7 +82,7 @@ class Seller extends Model {
                 }
             },
             defaultScope: {
-                attributes: { exclude: ['password']}
+                attributes: { exclude: ['password', 'recoveryToken']}
             },
             scopes: {
                 allProperties: { attributes: {}},
