@@ -11,9 +11,13 @@ const service = new DateService();
 
 router.get('/', 
     validatorHandler(queryDateSchema, 'query'),
+    verifyToken,
+    passport.authenticate('jwt', { session: false }),
     async (req, res, next) => {
         try {
-            const dates = await service.list(req.query);
+            const sellerId = req.user.sub; //Obtenemos el id del token
+
+            const dates = await service.list(req.query, sellerId);
 
             res.status(200).json(dates)
         } catch (error) {
@@ -24,10 +28,14 @@ router.get('/',
 
 router.get('/:id', 
     validatorHandler(getDateSchema, 'params'),
+    verifyToken,
+    passport.authenticate('jwt', { session: false }),
     async (req, res, next) => {
         try {
             const { id } = req.params;
-            const date = await service.find(id);
+            const sellerId = req.user.sub;
+
+            const date = await service.find(id, sellerId);
 
             res.status(200).json(date);
         } catch (error) {
@@ -38,8 +46,6 @@ router.get('/:id',
 
 router.post('/', 
     validatorHandler(createDateSchema, 'body'),
-    verifyToken,
-    passport.authenticate('jwt', { session: false }),
     async (req, res, next) => {
         try {
             const data = req.body;
@@ -61,9 +67,10 @@ router.patch('/:id',
     async (req, res, next) => {
         try {
             const { id } = req.params;
+            const sellerId = req.user.sub;
             const data = req.body;
 
-            const date = await service.update(id, data);
+            const date = await service.update(id, sellerId, data);
 
             res.status(200).json(date);
         } catch (error) {
@@ -79,7 +86,9 @@ router.delete('/:id',
     async (req, res, next) => {
         try {
             const { id } = req.params;
-            const date = await service.delete(id);
+            const sellerId = req.user.sub;
+
+            const date = await service.delete(id, sellerId);
 
             res.status(200).json({...date, message: "the date was deleted"});
         } catch (error) {

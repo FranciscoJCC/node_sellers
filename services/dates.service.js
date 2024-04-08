@@ -7,12 +7,13 @@ class DateService {
          
     }
 
-    async list(query){
+    async list(query, sellerId){
 
         const options = {
             include: ['property','seller', 'notes'],
             where: {
-                active: true
+                active: true,
+                sellerId: sellerId
             },
             limit: (query.limit) ? parseInt(query?.limit) : 10,
             offset: (query.offset) ? parseInt(query?.offset) : 0
@@ -23,12 +24,13 @@ class DateService {
         return response;
     }
 
-    async find(id){
+    async find(id, sellerId){
         const date = await models.Date.findOne({
             include: ['property','seller', 'notes'],
             where: {
                 active: true,
-                id: id
+                id: id,
+                sellerId: sellerId
             }
         });
 
@@ -53,16 +55,25 @@ class DateService {
         return newDate;
     }
 
-    async update(id, changes){
+    async update(id, sellerId, changes){
         const date = await this.findOne(id);
+
+        if(date.sellerId !== sellerId){
+            throw boom.unauthorized('You don´t have permission to perform this action');
+        }
 
         const response = await date.update(changes);
 
         return response;
     }
 
-    async delete(id){
+    async delete(id, sellerId){
+
         const date = await this.findOne(id);
+        
+        if(date.sellerId !== sellerId){
+            throw boom.unauthorized('You don´t have permission to perform this action');
+        }
 
         await date.update({ active: false });
 

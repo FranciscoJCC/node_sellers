@@ -45,26 +45,57 @@ class PhotoService {
         return photo;
     }
 
-    async create(data){
-        const newPhoto = await models.Photo.bulkCreate(data);
+    async create(data, sellerIdToken){
+        
+        //Validamos la propiedad de las fotos
+        await this.validateOwnerProperty(data.propertyId, sellerIdToken);
+
+
+        //Agregamos el propertyId a los elementos en photos
+        data.photos.forEach(photo => {
+            photo.propertyId = data.propertyId
+        });
+
+        //Eliminamos el elemento propertyId que está fuera de photos. 
+        delete data.propertyId;
+
+        //Creamos las fotos en la propiedad
+        const newPhoto = await models.Photo.bulkCreate(data.photos);
 
         return newPhoto;
     }
 
-    async update(id, changes){
+    async update(id, sellerIdToken, changes){
         const photo = await this.findOne(id);
+        
+        //Validamos la propiedad de la foto
+        await this.validateOwnerProperty(photo.propertyId, sellerIdToken);
 
         const response = await photo.update(changes);
 
         return response;
     }
 
-    async delete(id){
+    async delete(id, sellerIdToken){
+
         const photo = await this.findOne(id);
 
+        //Validamos la propiedad de la foto
+        await this.validateOwnerProperty(photo.propertyId, sellerIdToken)
+        
         await photo.update({ active: false});
 
         return { id };
+    }
+
+    async validateOwnerProperty(propertyId, sellerIdToken){
+        //Buscamos la propiedad y obtenemos el id
+        const { sellerId } = await models.Property.findByPk(propertyId);
+        
+        //Comparamos el idSeller del token vs la sellerId de la bdd en la propiedad
+        if(sellerId !== sellerIdToken){
+            throw boom.unauthorized('You don´t have permission to perform this action');
+        }
     }
 }
 

@@ -7,6 +7,8 @@ const url = Joi.string().max(255);
 const main = Joi.boolean();
 const active = Joi.boolean();
 
+const photos = Joi.array();
+
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
 
@@ -15,9 +17,10 @@ const getPhotoSchema = Joi.object({
     id: id.required()
 });
 
-const createPhotoSchema = Joi.array().items({
+const createPhotoSchema = Joi.object({
     propertyId: propertyId.required(),
-    url: url.required()
+    photos: photos.required(),
+    /* url: url.required() */
 });
 
 const updatePhotoSchema = Joi.object({

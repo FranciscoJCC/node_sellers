@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const { Op } = require('sequelize');
 
 const { models } = require('./../libs/sequelize');
 
@@ -7,9 +8,15 @@ class NoteService {
 
     }
 
-    async list(query) {
+    async list(query, sellerId) {
         const options = {
-            include: ['date'],
+            include: [{
+                model: models.Date,
+                as: 'date',
+                where: {
+                    sellerId: sellerId
+                }
+            }],
             where: {
                 active: true
             },

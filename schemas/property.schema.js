@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 //Definición de datos 
 const id = Joi.number().integer();
-const sellerId = Joi.number().integer();
+//const sellerId = Joi.number().integer();
 const title = Joi.string().max(150);
 const description = Joi.string().max(255);
 const price = Joi.number();
@@ -25,7 +25,7 @@ const getPropertySchema = Joi.object({
 });
 
 const createPropertySchema = Joi.object({
-    sellerId: sellerId.required(),
+    //sellerId: sellerId.required(),
     title: title.required(),
     description: description,
     price: price.required(),
@@ -40,7 +40,7 @@ const createPropertySchema = Joi.object({
 });
 
 const updatePropertySchema = Joi.object({
-    sellerId: sellerId,
+    //sellerId: sellerId,
     title: title,
     description: description,
     price: price,
@@ -51,6 +51,7 @@ const updatePropertySchema = Joi.object({
     numberBathrooms: numberBathrooms,
     width: width,
     heigth: heigth,
+    photos: photos,
     active: active
 });
 

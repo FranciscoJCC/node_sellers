@@ -26,6 +26,9 @@ class SellerService {
     async find(id){
         const response = await models.Seller.findByPk(id);
 
+        if(!response)
+            throw boom.notFound('user not found');
+
         return response;
     }
 
@@ -53,7 +56,11 @@ class SellerService {
         return newSeller;
     }
 
-    async update(id, changes){
+    async update(id, idParams, changes){
+        
+        if(id !== parseInt(idParams))
+            throw boom.badRequest("ID, Bad Request URL");
+
         const seller = await this.findOne(id);
 
         const response = await seller.update(changes);
@@ -61,13 +68,16 @@ class SellerService {
         return response;
     }
 
-    async delete(id){
+    async delete(id, idParams){
+
+        if(id !== parseInt(idParams))
+            throw boom.badRequest("ID, Bad Request URL");
 
         //Validamos si existe el usuario
         const seller = await this.findOne(id);
 
         //Eliminamos el vendedor
-        await seller.destroy();
+        await seller.update({ active: false});
 
         return { id };
     }

@@ -11,9 +11,14 @@ const service = new NoteService();
 
 router.get('/', 
     validatorHandler(queryNoteSchema, 'query'),
+    verifyToken,
+    passport.authenticate('jwt', { session: false}),
     async(req, res, next) => {
         try {
-            const notes = await service.list(req.query);
+
+            const sellerId = req.user.sub; //Obtenemos el sellerId del token
+
+            const notes = await service.list(req.query, sellerId);
 
             res.status(200).json(notes);
         } catch (error) {
@@ -24,10 +29,14 @@ router.get('/',
 
 router.get('/:id',
     validatorHandler(getNoteSchema, 'params'),
+    verifyToken,
+    passport.authenticate('jwt', { session: false}),
     async(req, res, next)=> {
         try {
             const { id } = req.params;
-            const note = await service.find(id);
+            const sellerId = req.params; //Obtenemos el sellerId del token
+
+            const note = await service.find(id, sellerId);
 
             res.status(200).json(note);
         } catch (error) {

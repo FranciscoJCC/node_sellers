@@ -44,8 +44,9 @@ router.post('/',
     async (req, res, next) => {
         try {
             const data = req.body;
+            const sellerId = req.user.sub; //Obtenemos el sellerId del token
 
-            const newProperty = await service.create(data);
+            const newProperty = await service.create(data, sellerId);
             
             res.status(201).json(newProperty);
         } catch (error) {
@@ -61,10 +62,11 @@ router.patch('/:id',
     passport.authenticate('jwt', { session: false}),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const idSeller = req.user.sub; //Obtenemos el sellerId del token
+            const propertyId = req.params.id;
             const data = req.body;
 
-            const property = await service.update(id, data);
+            const property = await service.update(propertyId, idSeller, data);
 
             res.status(200).json(property);
         } catch (error) {

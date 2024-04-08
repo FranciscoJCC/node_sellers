@@ -44,8 +44,9 @@ router.post('/',
     async (req, res, next) => {
         try {
             const data = req.body;
+            const sellerId = req.user.sub; //Obtenemos el sellerId del token
             
-            const newPhoto = await service.create(data);
+            const newPhoto = await service.create(data, sellerId);
 
             res.status(201).json(newPhoto);
         } catch (error) {
@@ -62,9 +63,10 @@ router.patch('/:id',
     async(req, res, next) => {
         try {
             const { id } = req.params;
+            const sellerId = req.user.sub; //Obtenemos el sellerId del token
             const body = req.body;
 
-            const photo = await service.update(id, body);
+            const photo = await service.update(id, sellerId, body);
 
             res.status(200).json(photo);
         } catch (error) {
@@ -80,7 +82,9 @@ router.delete('/:id',
     async (req, res, next) => {
         try {
             const { id } = req.params;
-            const photo = await service.delete(id);
+            const sellerId = req.user.sub; //Obtenemos el sellerId del token
+
+            const photo = await service.delete(id, sellerId);
 
             res.status(200).json({...photo, message: "the photo was deleted"});
         } catch (error) {

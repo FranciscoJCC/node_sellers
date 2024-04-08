@@ -47,7 +47,9 @@ class PropertyService {
         return property;
     }
 
-    async create(data){
+    async create(data, sellerId){
+
+        data.sellerId = sellerId;
 
         const property = await models.Property.create(data, {
             include: ['photos']
@@ -56,10 +58,16 @@ class PropertyService {
         return property;
     }
 
-    async update(id, changes){
+    async update(propertyId, sellerId, changes){
 
         //Consultamos la propiedad, ya se valida existencia
-        const property = await this.findOne(id);
+        const property = await this.findOne(propertyId);
+        
+        console.log('PORPEOR', property.sellerId);
+        
+        if(property.sellerId !== sellerId){
+            throw boom.badRequest("You don´t have permission to perform this action");
+        }
 
         const response = await property.update(changes);
 
