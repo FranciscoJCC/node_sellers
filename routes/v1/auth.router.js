@@ -16,14 +16,7 @@ router.post('/login',
         try {
             const user = req.user;
 
-            const payload = {
-                sub: user.id,
-                role: 'seller'
-            };
-
-            const token = jwt.sign(payload, CONFIG.JwtSecret);
-
-            res.status(200).json({user, token});
+            res.status(200).json(service.signToken(user));
         } catch (error) {
             next(error);
         }

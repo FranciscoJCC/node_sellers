@@ -30,6 +30,21 @@ class AuthService {
         return user;
     }
 
+    //Firmamos un token
+    signToken(user){
+        const payload = {
+            sub: user.id,
+            role: 'seller'
+        };
+
+        const token = jwt.sign(payload, CONFIG.JwtSecret);
+
+        return {
+            user,
+            token
+        }
+    }
+
     //Restablecimiento de contraseña 
     async sendRecovery(email){
         //Buscamos el usuario con el email
