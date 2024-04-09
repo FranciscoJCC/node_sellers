@@ -41,6 +41,15 @@ class SellerService {
         return seller;
     }
 
+    async findById(id){
+        const seller = await models.Seller.scope('allProperties').findByPk(id);
+
+        if(!seller)
+            throw boom.notFound('user not found');
+
+        return seller;
+    }
+
     async findByEmail(email){
         const response = await models.Seller.scope('allProperties').findOne({
             where: { email }

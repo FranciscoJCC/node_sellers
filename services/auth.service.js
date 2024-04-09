@@ -45,7 +45,7 @@ class AuthService {
         }
     }
 
-    //Restablecimiento de contraseña 
+    //Restablecimiento de contraseña, envio de correos 
     async sendRecovery(email){
         //Buscamos el usuario con el email
         const seller = await service.findByEmail(email);
@@ -76,6 +76,35 @@ class AuthService {
         const response = await mailService.sendEmail(mail);
 
         return response;
+    }
+
+    //Actualización del password
+    async changePassword(token, password){
+        try {
+            //Verificamos el token
+            const payload = jwt.verify(token, CONFIG.jwtSecretRecPassword);
+            
+            
+            //Información del usuario
+            const seller = await service.findById(payload.sub);
+            console.log('PAYLOAD:', seller.recoveryToken);
+            console.log('PAYLOAD:', token);
+
+            //Si el token no coincide con el de la bdd, retornamos el error
+            if(seller.recoveryToken !== token){
+                throw boom.unauthorized('Bad request, token expired');
+            }
+
+            //Hash de la contraseña 
+            const hash = await bcrypt.hash(password, 10);
+
+            //Actualizamos el usuario
+            await service.update(seller.id, seller.id, { recoveryToken: null, password: hash});
+
+            return { message: 'password changed'};
+        } catch (error) {
+            throw boom.unauthorized("Failed password change");
+        }
     }
 }
 

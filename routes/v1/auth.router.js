@@ -3,7 +3,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { CONFIG } = require('./../../config/config');
 const validatorHandler = require('./../../middelwares/validatorHandler');
-const { recoverySchema } = require('./../../schemas/auth.schema');
+const { recoverySchema, changePasswordSchema } = require('./../../schemas/auth.schema');
 const AuthService = require('./../../services/auth.service');
 
 
@@ -33,6 +33,21 @@ router.post('/recovery',
             const response = await service.sendRecovery(email);
 
             res.status(200).json({message: 'The email was sent successfully'});
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.post('/change-password', 
+    validatorHandler(changePasswordSchema, 'body'),
+    async (req, res, next) => {
+        try {
+            const { token, password } = req.body;
+            
+            const response = await service.changePassword(token, password);
+
+            res.status(200).json(response);
         } catch (error) {
             next(error);
         }
